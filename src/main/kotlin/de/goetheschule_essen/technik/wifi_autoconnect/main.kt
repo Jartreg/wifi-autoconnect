@@ -1,5 +1,6 @@
 package de.goetheschule_essen.technik.wifi_autoconnect
 
+import de.goetheschule_essen.technik.wifi_autoconnect.networkmanager.NMConnectivityState
 import de.goetheschule_essen.technik.wifi_autoconnect.networkmanager.NetworkManagerHelper
 import org.freedesktop.dbus.DBusConnection
 import org.freedesktop.dbus.exceptions.DBusExecutionException
@@ -30,6 +31,11 @@ fun main(args: Array<String>) {
     val authenticationManager = AuthenticationManager(networkManager, config)
     val observer = ConnectivityObserver(networkManager, authenticationManager::authenticate)
     observer.observing = true
+
+    // Check whether the user already needs to be authenticated
+    if (networkManager.Connectivity == NMConnectivityState.PORTAL) {
+        authenticationManager.authenticate()
+    }
 }
 
 /**
