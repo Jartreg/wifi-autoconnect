@@ -14,13 +14,27 @@ const val ConnectivityProperty = "Connectivity"
 const val ConnectivityCheckAvailableProperty = "ConnectivityCheckAvailable"
 const val ConnectivityCheckEnabledProperty = "ConnectivityCheckEnabled"
 
+/**
+ * A helper class for easier access to properties on the NetworkManager interface
+ * Also provides automatic conversion of [NMConnectivityState] values
+ */
 class NetworkManagerHelper(private val dbus: DBusConnection) {
-    val networkManager = dbus.getRemoteObject(networkManagerBus, networkManagerPath, NetworkManager::class.java)
+    /**
+     * The remote org.freedesktop.NetworkManager interface on the NetworkManager object
+     * used to invoke methods on the NetworkManager interface
+     */
+    val networkManager: NetworkManager = dbus.getRemoteObject(networkManagerBus, networkManagerPath, NetworkManager::class.java)
+
+    /**
+     * The remote org.freedesktop.DBus.Properties interface on the NetworkManager object
+     * used to get and modify properties
+     */
     val networkManagerProperties: DBus.Properties = dbus.getRemoteObject(networkManagerBus, networkManagerPath, DBus.Properties::class.java)
 
     /**
      * Re-check the network connectivity state
      */
+    @Suppress("FunctionName")
     fun CheckConnectivity(): NMConnectivityState {
         val result = networkManager.CheckConnectivity()
         return NMConnectivityState.fromUInt32(result)
@@ -38,12 +52,14 @@ class NetworkManagerHelper(private val dbus: DBusConnection) {
     /**
      * Indicates whether connectivity checking service has been configured
      */
+    @Suppress("PropertyName")
     val ConnectivityCheckAvailable: Boolean
         get() = networkManagerProperties.Get(networkManagerInterfaceName, ConnectivityCheckAvailableProperty)
 
     /**
      * Indicates whether connectivity checking is enabled
      */
+    @Suppress("PropertyName")
     var ConnectivityCheckEnabled: Boolean
         get() = networkManagerProperties.Get(networkManagerInterfaceName, ConnectivityCheckEnabledProperty)
         set(value) = networkManagerProperties.Set(networkManagerInterfaceName, ConnectivityCheckEnabledProperty, value)
@@ -74,6 +90,11 @@ enum class NMConnectivityState {
     FULL;
 
     companion object {
+        /**
+         * Converts a [UInt32] value received from a DBus remote call to an instance of [NMConnectivityState]
+         *
+         * @throws IndexOutOfBoundsException if [value] is not one of the expected values
+         */
         @JvmStatic
         fun fromUInt32(value: UInt32) = NMConnectivityState.values()[value.toInt()]
     }

@@ -4,9 +4,15 @@ import de.goetheschule_essen.technik.wifi_autoconnect.networkmanager.*
 import org.freedesktop.DBus
 import org.freedesktop.dbus.UInt32
 
+/**
+ * Observes the network connectivity state as reported by NetworkManager and notifies when a portal is detected
+ */
 class ConnectivityObserver(private val networkManager: NetworkManagerHelper, private val portalDetected: () -> Unit) {
     private val handler = ::handlePropertyChange
 
+    /**
+     * Gets or sets the observing state
+     */
     var observing: Boolean = false
         set(value) {
             if(value == field) return
@@ -20,7 +26,7 @@ class ConnectivityObserver(private val networkManager: NetworkManagerHelper, pri
         }
 
     private fun handlePropertyChange(signal: DBus.Properties.PropertiesChanged) {
-        for ((prop, valueVariant) in signal.changedProperties) {
+        for ((prop, valueVariant) in signal.changedProperties) { // for each changed property
             val value = valueVariant.value
             when (prop) {
                 ConnectivityProperty -> if (value is UInt32) handleConnectivityChange(NMConnectivityState.fromUInt32(value))

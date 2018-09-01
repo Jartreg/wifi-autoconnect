@@ -8,9 +8,14 @@ class AuthenticationManager(private val networkManager: NetworkManagerHelper, pr
     private var authenticating = false
     private val executor = Executors.newSingleThreadScheduledExecutor()
 
+    /**
+     * Authenticates the user.
+     * This happens on a separate thread and only once at a time.
+     */
     fun authenticate() {
         synchronized(this) {
             if (authenticating) return
+            // Set authenticating to true to block concurrent authentications
             authenticating = true
         }
 
@@ -25,12 +30,15 @@ class AuthenticationManager(private val networkManager: NetworkManagerHelper, pr
     }
 
     private fun runAuthentication() {
+        // Submit credentials
         submitAuthentication()
 
         // Check for connectivity
         if (networkManager.CheckConnectivity() == NMConnectivityState.PORTAL) {
             scheduleAuthentication(5) // Retry after 5 seconds
         } else {
+            // Authenticated successfully
+            // Reset authenticating to false to allow later authentications
             synchronized(this) {
                 authenticating = false
             }
