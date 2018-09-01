@@ -3,7 +3,6 @@ package de.goetheschule_essen.technik.wifi_autoconnect.networkmanager
 import org.freedesktop.DBus
 import org.freedesktop.NetworkManager
 import org.freedesktop.dbus.DBusConnection
-import org.freedesktop.dbus.DBusSigHandler
 import org.freedesktop.dbus.UInt32
 
 const val networkManagerBus = "org.freedesktop.NetworkManager"
@@ -23,18 +22,18 @@ class NetworkManagerHelper(private val dbus: DBusConnection) {
      * The remote org.freedesktop.NetworkManager interface on the NetworkManager object
      * used to invoke methods on the NetworkManager interface
      */
-    val networkManager: NetworkManager = dbus.getRemoteObject(networkManagerBus, networkManagerPath, NetworkManager::class.java)
+    private val networkManager: NetworkManager = dbus.getRemoteObject(networkManagerBus, networkManagerPath, NetworkManager::class.java)
 
     /**
      * The remote org.freedesktop.DBus.Properties interface on the NetworkManager object
      * used to get and modify properties
      */
-    val networkManagerProperties: DBus.Properties = dbus.getRemoteObject(networkManagerBus, networkManagerPath, DBus.Properties::class.java)
+    private val networkManagerProperties: DBus.Properties = dbus.getRemoteObject(networkManagerBus, networkManagerPath, DBus.Properties::class.java)
 
     /**
      * Re-check the network connectivity state
      */
-    @Suppress("FunctionName")
+    @Suppress("FunctionName") // the name is the same as on the interface
     fun CheckConnectivity(): NMConnectivityState {
         val result = networkManager.CheckConnectivity()
         return NMConnectivityState.fromUInt32(result)
@@ -43,6 +42,7 @@ class NetworkManagerHelper(private val dbus: DBusConnection) {
     /**
      * The result of the last connectivity check
      */
+    @Suppress("PropertyName") // the name is the same as on the interface
     val Connectivity: NMConnectivityState
         get() {
             val value = networkManagerProperties.Get<UInt32>(networkManagerInterfaceName, ConnectivityProperty)
@@ -52,14 +52,14 @@ class NetworkManagerHelper(private val dbus: DBusConnection) {
     /**
      * Indicates whether connectivity checking service has been configured
      */
-    @Suppress("PropertyName")
+    @Suppress("PropertyName") // the name is the same as on the interface
     val ConnectivityCheckAvailable: Boolean
         get() = networkManagerProperties.Get(networkManagerInterfaceName, ConnectivityCheckAvailableProperty)
 
     /**
      * Indicates whether connectivity checking is enabled
      */
-    @Suppress("PropertyName")
+    @Suppress("PropertyName") // the name is the same as on the interface
     var ConnectivityCheckEnabled: Boolean
         get() = networkManagerProperties.Get(networkManagerInterfaceName, ConnectivityCheckEnabledProperty)
         set(value) = networkManagerProperties.Set(networkManagerInterfaceName, ConnectivityCheckEnabledProperty, value)
