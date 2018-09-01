@@ -10,9 +10,8 @@ class AuthenticationManager(private val networkManager: NetworkManagerHelper, pr
 
     fun authenticate() {
         synchronized(this) {
-            if (authenticating)
-                return
-            authenticating = false
+            if (authenticating) return
+            authenticating = true
         }
 
         scheduleAuthentication()
@@ -31,6 +30,10 @@ class AuthenticationManager(private val networkManager: NetworkManagerHelper, pr
         // Check for connectivity
         if (networkManager.CheckConnectivity() == NMConnectivityState.PORTAL) {
             scheduleAuthentication(5) // Retry after 5 seconds
+        } else {
+            synchronized(this) {
+                authenticating = false
+            }
         }
     }
 
