@@ -68,14 +68,14 @@ class NetworkManagerHelper(private val dbus: DBusConnection) {
      * Adds a handler for property changes
      */
     fun addPropertyChangedHandler(handler: (DBus.Properties.PropertiesChanged) -> Unit) {
-        dbus.addSigHandler(DBus.Properties.PropertiesChanged::class.java, networkManagerBus, networkManager, handler)
+        dbus.addSigHandler(DBus.Properties.PropertiesChanged::class.java, networkManager, handler)
     }
 
     /**
      * Removes a handler for property changes
      */
     fun removePropertyChangedHandler(handler: (DBus.Properties.PropertiesChanged) -> Unit) {
-        dbus.removeSigHandler(DBus.Properties.PropertiesChanged::class.java, networkManagerBus, networkManager, handler)
+        dbus.removeSigHandler(DBus.Properties.PropertiesChanged::class.java, networkManager, handler)
     }
 }
 
