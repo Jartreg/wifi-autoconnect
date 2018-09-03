@@ -29,3 +29,4 @@
 
 # IntelliJ
 out/
+.idea/kotlinc.xml
