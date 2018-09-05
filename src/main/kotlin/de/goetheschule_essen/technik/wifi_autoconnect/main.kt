@@ -19,14 +19,6 @@ fun main(args: Array<String>) {
     val dbus = DBusConnection.getConnection(DBusConnection.SYSTEM)
     val networkManager = NetworkManagerHelper(dbus)
 
-    // ensure that connectivity checking is available
-    // exit otherwise
-    if (!networkManager.ensureConnectivityCheck()) {
-        System.err.println("Connectivity check unavailable")
-        System.exit(1)
-        return
-    }
-
     // start observing the connectivity state
     val authenticationManager = AuthenticationManager(networkManager, config)
     val observer = ConnectivityObserver(networkManager, authenticationManager::authenticate)
@@ -61,25 +53,5 @@ fun getConfig(): Configuration? {
     }
 
     return config
-}
-
-/**
- * Returns whether connectivity checking is available and tries to enable it if possible
- */
-fun NetworkManagerHelper.ensureConnectivityCheck(): Boolean {
-    try {
-        // check whether it is available
-        if (!ConnectivityCheckAvailable)
-            return false
-
-        // ensure that it is enabled
-        if (!ConnectivityCheckEnabled)
-            ConnectivityCheckEnabled = true
-    } catch (ex: DBusExecutionException) {
-        return false
-    }
-
-    // connectivity checking is available and enabled
-    return true
 }
 
