@@ -1,4 +1,4 @@
-package de.goetheschule_essen.technik.wifi_autoconnect.networkmanager
+package de.goetheschule_essen.technik.wifi_autoconnect.utils
 
 import org.freedesktop.DBus
 import org.freedesktop.NetworkManager

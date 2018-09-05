@@ -1,6 +1,6 @@
 package de.goetheschule_essen.technik.wifi_autoconnect
 
-import de.goetheschule_essen.technik.wifi_autoconnect.networkmanager.*
+import de.goetheschule_essen.technik.wifi_autoconnect.utils.*
 import org.freedesktop.DBus
 import org.freedesktop.dbus.UInt32
 

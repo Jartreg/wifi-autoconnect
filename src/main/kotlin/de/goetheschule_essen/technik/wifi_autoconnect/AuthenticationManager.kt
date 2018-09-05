@@ -1,7 +1,7 @@
 package de.goetheschule_essen.technik.wifi_autoconnect
 
-import de.goetheschule_essen.technik.wifi_autoconnect.networkmanager.NMConnectivityState
-import de.goetheschule_essen.technik.wifi_autoconnect.networkmanager.NetworkManagerHelper
+import de.goetheschule_essen.technik.wifi_autoconnect.utils.NMConnectivityState
+import de.goetheschule_essen.technik.wifi_autoconnect.utils.NetworkManagerHelper
 import java.util.concurrent.*
 
 class AuthenticationManager(private val networkManager: NetworkManagerHelper, private val configuration: Configuration) {

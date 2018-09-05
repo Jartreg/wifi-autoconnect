@@ -1,9 +1,8 @@
 package de.goetheschule_essen.technik.wifi_autoconnect
 
-import de.goetheschule_essen.technik.wifi_autoconnect.networkmanager.NMConnectivityState
-import de.goetheschule_essen.technik.wifi_autoconnect.networkmanager.NetworkManagerHelper
+import de.goetheschule_essen.technik.wifi_autoconnect.utils.NMConnectivityState
+import de.goetheschule_essen.technik.wifi_autoconnect.utils.NetworkManagerHelper
 import org.freedesktop.dbus.DBusConnection
-import org.freedesktop.dbus.exceptions.DBusExecutionException
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
