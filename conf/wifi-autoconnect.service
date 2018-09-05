@@ -1,0 +1,7 @@
+[Unit]
+Description=WiFi Autoconnect
+Requires=NetworkManager.service
+
+[Service]
+ExecStart=/usr/bin/java -jar /usr/share/java/wifi-autoconnect.jar
+SyslogIdentifier=wifi-autoconnect
