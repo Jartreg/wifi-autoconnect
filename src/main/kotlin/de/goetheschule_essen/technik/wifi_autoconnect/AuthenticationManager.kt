@@ -44,6 +44,7 @@ class AuthenticationManager(private val networkManager: NetworkManagerHelper, co
 
         try {
             // Submit credentials
+            println("Submitting credentials")
             requestManager.post(requestUrl, requestData)
 
             // Check for connectivity

@@ -12,22 +12,6 @@ import javax.net.ssl.*
  * A helper class to send web requests ignoring TLS verification
  */
 class RequestManager {
-    private val sslSocketFactory: SSLSocketFactory
-    private val hostnameVerifier: HostnameVerifier
-
-    init {
-        val trustManager = object : X509TrustManager {
-            override fun checkClientTrusted(p0: Array<out X509Certificate>?, p1: String?) { }
-            override fun checkServerTrusted(p0: Array<out X509Certificate>?, p1: String?) { }
-            override fun getAcceptedIssuers(): Array<X509Certificate> = emptyArray()
-        }
-        val context = SSLContext.getInstance("TLS")
-        context.init(null, arrayOf(trustManager), SecureRandom())
-        sslSocketFactory = context.socketFactory
-
-        hostnameVerifier = HostnameVerifier { _, _ -> true }
-    }
-
     /**
      * Sends a POST request to the specified [url] with the given [data]
      *
@@ -35,29 +19,18 @@ class RequestManager {
      * @param data the data to send in the request body
      */
     @Throws(IOException::class)
-    fun post(url: URL, data: Map<String, String>): String {
-        val connection = url.openConnection()
+    fun post(url: URL, data: Map<String, String>) {
+        val process = Runtime.getRuntime().exec(arrayOf(
+                "/usr/bin/wget",
+                "--output-document=-",
+                "--no-check-certificate",
+                "--post-data=${createQuery(data)}",
+                url.toString()
+        ))
 
-        if (connection is HttpsURLConnection) { // Necessary to allow insecure requests
-            connection.sslSocketFactory = sslSocketFactory
-            connection.hostnameVerifier = hostnameVerifier
-        }
-
-        if (connection is HttpURLConnection) {
-            connection.requestMethod = "POST"
-        }
-        connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
-
-        connection.doOutput = true
-        connection.connect()
-
-        connection.getOutputStream().use {
-            it.write(createQuery(data).toByteArray())
-        }
-
-        return connection.getInputStream().use {
-            it.reader().readText()
-        }
+        val exitCode = process.waitFor()
+        if(exitCode != 0)
+            throw IOException("wget exited with $exitCode")
     }
 
     /**
