@@ -40,20 +40,18 @@ class AuthenticationManager(private val networkManager: NetworkManagerHelper, co
     }
 
     private fun runAuthentication() {
-        var success = false
-
         try {
             // Submit credentials
             println("Submitting credentials")
             requestManager.post(requestUrl, requestData)
-
-            // Check for connectivity
-            success = networkManager.CheckConnectivity() == NMConnectivityState.PORTAL
         } catch (e: Exception) {
             e.printStackTrace()
         }
 
-        if (success) { // On failure: retry after 5 seconds
+        // Check for connectivity
+        val success = networkManager.CheckConnectivity() != NMConnectivityState.PORTAL
+
+        if (!success) { // On failure: retry after 5 seconds
             scheduleAuthentication(5)
         } else {
             // Authenticated successfully
