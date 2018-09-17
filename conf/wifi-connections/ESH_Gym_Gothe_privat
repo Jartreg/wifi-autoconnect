@@ -1,0 +1,14 @@
+[connection]
+id=ESH_Gym_Gothe_privat
+type=wifi
+
+[wifi]
+ssid=ESH_Gym_Gothe_privat
+mode=infrastructure
+
+[ipv4]
+method=auto
+
+[ipv6]
+addr-gen-mode=stable-privacy
+method=auto

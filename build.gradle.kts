@@ -80,6 +80,12 @@ task("distDeb", Deb::class) {
         into("/etc/NetworkManager/conf.d")
     }
 
+    // The WiFi networks to connect to
+    from("./conf/wifi-connections/") {
+        into("/etc/NetworkManager/system-connections")
+        fileMode = 384 // required by NetworkManager
+    }
+
     // Configutation file
     from("./conf/wifi-autoconnect.properties") {
         into("/etc")
