@@ -83,6 +83,9 @@ task("distDeb", Deb::class) {
     // Configutation file
     from("./conf/wifi-autoconnect.properties") {
         into("/etc")
+
+        // Make only root able to access the file
+        fileMode = 384
     }
     configurationFile("/etc/wifi-autoconnect.properties")
 }
