@@ -15,7 +15,7 @@ class RequestManager {
      * @param data the data to send in the request body
      */
     @Throws(IOException::class)
-    fun post(url: URL, data: Map<String, String>) {
+    fun post(url: URL, data: Map<String, String>): Int {
         val builder = ProcessBuilder(
                 "/usr/bin/wget",
                 "--output-document=-",
@@ -28,9 +28,7 @@ class RequestManager {
                 .redirectOutput(ProcessBuilder.Redirect.PIPE)
                 .start()
 
-        val exitCode = process.waitFor()
-        if (exitCode != 0)
-            throw IOException("wget exited with $exitCode")
+        return process.waitFor()
     }
 
     /**
