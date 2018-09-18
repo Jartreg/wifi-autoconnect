@@ -37,7 +37,7 @@ class RequestManager {
     private fun createQuery(data: Map<String, String>): String {
         val charset = "UTF-8"
         return data
-                .map { "${URLEncoder.encode(it.key, charset)}=${URLEncoder.encode(it.key, charset)}" }
+                .map { "${URLEncoder.encode(it.key, charset)}=${URLEncoder.encode(it.value, charset)}" }
                 .joinToString("&")
     }
 }
