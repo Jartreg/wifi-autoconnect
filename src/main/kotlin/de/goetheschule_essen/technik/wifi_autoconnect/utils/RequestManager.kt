@@ -25,7 +25,7 @@ class RequestManager {
 
         val process = builder
                 .redirectError(ProcessBuilder.Redirect.INHERIT)
-                .redirectOutput(ProcessBuilder.Redirect.PIPE)
+                .redirectOutput(ProcessBuilder.Redirect.DISCARD)
                 .start()
 
         return process.waitFor()
