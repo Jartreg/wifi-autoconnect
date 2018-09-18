@@ -43,8 +43,7 @@ class AuthenticationManager(private val networkManager: NetworkManagerHelper, co
         try {
             // Submit credentials
             println("Submitting credentials")
-            val exitCode = requestManager.post(requestUrl, requestData)
-            println("wget exited with $exitCode")
+            requestManager.post(requestUrl, requestData)
         } catch (e: Exception) {
             e.printStackTrace()
         }
