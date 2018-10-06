@@ -1,0 +1,27 @@
+language: java
+jdk:
+  - oraclejdk9
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+    - "$HOME/.gradle/caches/"
+    - "$HOME/.gradle/wrapper/"
+
+deploy:
+  provider: releases
+  api_key:
+    secure: qAl31t5C44IITlk2RkFkbYc5lQln9JDdfuqqV7m16QGh5iN3CmcKZUyRUX2iYh6ukEGLw0joCt7O2gnCIPh7KqQdcdFMovnRuagbCRGxfVrsIDpHGfAgt5u4LXzWSHl5k0zE8GW4P9zExjhsf5S6P8j/Un3nyghDWYqBNBA8WX4qqWHthswWgLHVrBTUi0FyyLk9f/CmplM4rGiyH0qQww7lNakJVKlv4jr/UY7EUAsL6tq24KJfb/By8ZIpS9z/3hcfS4iOuPIZEdh5SttA1hRS6R7IpjvbkXZiTs8W5PTx+5+CcSxrlXQRP6D+78YREqW7tGYi+W5r6vS63FiZMowWI+VsLQvKOHZZkxUb5xjfjRuAeQc+MvEt7T+oYGu4YSZrmwh+tvQn9msSBQ3HHe2kch6V8MgnsrXLRnhNkv1OV3cDe7aLuR9I72/8rMFKqzZVS82TSTv9jXmo2RnxSj8g3WXf2BTYH+wY/WDlD2F6TnH68AyzaXIsB1efOGt3tm3i4caaC2lrJLzE0iYYhNpJMHO3/d9aKsltlddl7xCHz8VLdHXNfbhMThSAv52930x5/IbCncJAnhPynHtIC56s+TRnU+krwX6CoSt5AXWJu3HV61bZ6U3MDA3KwU7BS7bB9Vs65VBdSKWyzYi1MRV6SwSQgQBmnHpbw6qFTTQ=
+  skip_cleanup: true
+  file_glob: true
+  file: build/distributions/*.deb
+  on:
+    repo: Technik-AG/wifi-autoconnect
+    branch: master
+    tags: true
+
+notifications:
+  slack:
+    secure: QoQ7DnTK3z40btl4OWbfv+1IKGxFGPFQcYZTWHrazIwFjiXnPL312fnLruE6gV/AmrIDDLRsiUz9ipDhYjsmMxfMmVhMSjDZ9jHwYu0aVn0tLiYSzXF/gbRtqk29zlydnwfyOLQnSP00EzRKBbRQwnbYFaeVCxKpH5xj/cTW48qu+6mUFTst6pFxeYW8nj+Bjr9nGJFNfOsQGOuhiSfGIj5JVPAkExgxVA05FJDmHR6CDJOvX4QvBXbk/dljAh3q0089yVA56PFLVMCaudPPyBjVF+eOZpu8STtSf4jrV5An8mWCyCudW9kt/ddA8XjhtvV+5IIPgG0nWPTTCgM4mrYmr06Kttf23JZsxo2stWNJItqOWHSjiXQfe5fggMWNsXgIPBZngtTmvToLH2ZL6jmaRmF5gkBgfFWrsgtD0zXcr9bJo59s9ZulGQPryfD0debJVo3r/adFwYQtMpPDT5uH/wma3rNTMnie8QduddMuLDBxYm2CRQHI1Kknm/lCWSFYfvufvO+qFVewMWOKeA7BwfGT1sXntVAAsEebUbJBkhUPrKj3jxPYFPVvXB4rl82474I6ZHXz/0oMgB8Hn91B/D8VfczVZSyfEM/zDaAflGvsHYzsmrKPgH1Y7j3jPOoMrr5g9TBsSZU2yofDuop6zuRixENgdPjZy1fVrno=
