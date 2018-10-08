@@ -12,3 +12,8 @@ Er sendet dann die Anmeldedaten automatisch ab, sobald eine Anmeldung erforderli
 ## Vorraussetzungen
 
 Der Service benötigt NetworkManager und DBus und funktioniert somit nur auf Linux-basierten Betriebssystemen.
+
+## Konfiguration
+
+In der Datei `/etc/wifi-autoconnect.properties` muss zuvor der Benutzername und das Passwort des Benutzerkontos,
+mit dem sich im Netzwerk angemeldet werden soll, eingerichtet werden (das geht nur mit `root`-Rechten).
