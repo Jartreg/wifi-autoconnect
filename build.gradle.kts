@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "me.jartreg"
-version = "1.0-SNAPSHOT"
+version = "1.0"
 description = "Ein Service, um sich automatisch im Schul-WLAN anzumelden"
 
 repositories {
